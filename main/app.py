@@ -122,11 +122,36 @@ st.markdown("""
         font-size: 2.5rem;
         color: #4da6ff;
     }
+    /* Background floating shapes */
+    .bg-shape {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(120px);
+        z-index: -1;
+        pointer-events: none;
+    }
+    .shape-1 {
+        top: -10%;
+        left: -10%;
+        width: 600px;
+        height: 600px;
+        background: rgba(0, 102, 255, 0.25);
+    }
+    .shape-2 {
+        bottom: 10%;
+        right: -5%;
+        width: 500px;
+        height: 500px;
+        background: rgba(138, 43, 226, 0.2);
+    }
     </style>
 """, unsafe_allow_html=True)
 
-# Custom HTML Header / Navbar / Hero
+# Custom HTML Header / Navbar / Hero / Background Shapes
 st.markdown("""
+<div class="bg-shape shape-1"></div>
+<div class="bg-shape shape-2"></div>
+
 <div class="custom-navbar">
     <div class="nav-left">
         <span>About</span>
@@ -174,8 +199,8 @@ col1, col2 = st.columns([1, 1.5], gap="large")
 
 with col1:
     st.markdown("### 1. Upload Image")
-    st.markdown("<p style='color: #a0a0a0; font-size: 14px;'>Choose a .jpg, .jpeg, or .png Sentinel-2 image.</p>", unsafe_allow_html=True)
     uploaded = st.file_uploader("", type=["jpg", "jpeg", "png"], label_visibility="collapsed")
+    st.markdown("<p style='color: #a0a0a0; font-size: 14px; margin-top: -10px;'>Choose a .jpg, .jpeg, or .png Sentinel-2 image.</p>", unsafe_allow_html=True)
     
     if uploaded:
         image = Image.open(uploaded).convert("RGB")
