@@ -274,3 +274,175 @@ Epoch [10/15], Step [400/591], Loss: 0.0244
 Epoch [10/15], Step [450/591], Loss: 0.0371
 Epoch [10/15], Step [500/591], Loss: 0.0290
 Epoch [10/15], Step [550/591], Loss: 0.0878
+Epoch 10/15 - Loss: 0.0492
+Validation for Epoch 10:
+                      precision    recall  f1-score   support
+
+          AnnualCrop       0.99      0.97      0.98       600
+              Forest       0.99      1.00      0.99       600
+HerbaceousVegetation       0.98      0.98      0.98       600
+             Highway       0.99      0.99      0.99       500
+          Industrial       0.99      0.98      0.99       500
+             Pasture       0.99      0.96      0.97       400
+       PermanentCrop       0.97      0.98      0.98       500
+         Residential       0.98      1.00      0.99       600
+               River       0.99      0.99      0.99       500
+             SeaLake       0.99      0.99      0.99       600
+
+            accuracy                           0.98      5400
+           macro avg       0.99      0.98      0.98      5400
+        weighted avg       0.99      0.98      0.98      5400
+
+Epoch [11/15], Step [50/591], Loss: 0.0676
+Epoch [11/15], Step [100/591], Loss: 0.0406
+Epoch [11/15], Step [150/591], Loss: 0.0869
+Epoch [11/15], Step [200/591], Loss: 0.0240
+Epoch [11/15], Step [250/591], Loss: 0.1358
+Epoch [11/15], Step [300/591], Loss: 0.0427
+Epoch [11/15], Step [350/591], Loss: 0.0263
+Epoch [11/15], Step [400/591], Loss: 0.0240
+Epoch [11/15], Step [450/591], Loss: 0.0049
+Epoch [11/15], Step [500/591], Loss: 0.0108
+Epoch [11/15], Step [550/591], Loss: 0.0086
+Epoch 11/15 - Loss: 0.0404
+Validation for Epoch 11:
+                      precision    recall  f1-score   support
+
+          AnnualCrop       0.98      0.97      0.98       600
+              Forest       0.99      1.00      0.99       600
+HerbaceousVegetation       0.98      0.98      0.98       600
+             Highway       1.00      0.99      0.99       500
+          Industrial       0.99      1.00      0.99       500
+             Pasture       0.98      0.96      0.97       400
+       PermanentCrop       0.98      0.99      0.98       500
+         Residential       1.00      0.99      0.99       600
+               River       0.98      0.99      0.99       500
+             SeaLake       1.00      0.99      1.00       600
+
+            accuracy                           0.99      5400
+           macro avg       0.99      0.99      0.99      5400
+        weighted avg       0.99      0.99      0.99      5400
+
+Epoch [12/15], Step [50/591], Loss: 0.1083
+Epoch [12/15], Step [100/591], Loss: 0.0656
+Epoch [12/15], Step [150/591], Loss: 0.0366
+Epoch [12/15], Step [200/591], Loss: 0.0013
+Epoch [12/15], Step [250/591], Loss: 0.0099
+Epoch [12/15], Step [300/591], Loss: 0.0033
+Epoch [12/15], Step [350/591], Loss: 0.0029
+Epoch [12/15], Step [400/591], Loss: 0.0053
+Epoch [12/15], Step [450/591], Loss: 0.0368
+Epoch [12/15], Step [500/591], Loss: 0.0091
+Epoch [12/15], Step [550/591], Loss: 0.0482
+Epoch 12/15 - Loss: 0.0340
+Validation for Epoch 12:
+                      precision    recall  f1-score   support
+
+          AnnualCrop       0.98      0.99      0.98       600
+              Forest       0.99      1.00      0.99       600
+HerbaceousVegetation       0.97      0.97      0.97       600
+             Highway       0.99      0.98      0.99       500
+          Industrial       0.99      0.99      0.99       500
+             Pasture       0.98      0.95      0.96       400
+       PermanentCrop       0.97      0.98      0.98       500
+         Residential       0.99      0.99      0.99       600
+               River       0.98      0.99      0.99       500
+             SeaLake       1.00      0.99      0.99       600
+
+            accuracy                           0.98      5400
+           macro avg       0.98      0.98      0.98      5400
+        weighted avg       0.98      0.98      0.98      5400
+
+Epoch [13/15], Step [50/591], Loss: 0.0741
+Epoch [13/15], Step [100/591], Loss: 0.0010
+Epoch [13/15], Step [150/591], Loss: 0.0199
+Epoch [13/15], Step [200/591], Loss: 0.0202
+Epoch [13/15], Step [250/591], Loss: 0.0010
+Epoch [13/15], Step [300/591], Loss: 0.0019
+Epoch [13/15], Step [350/591], Loss: 0.0256
+Epoch [13/15], Step [400/591], Loss: 0.0163
+Epoch [13/15], Step [450/591], Loss: 0.0765
+Epoch [13/15], Step [500/591], Loss: 0.0196
+Epoch [13/15], Step [550/591], Loss: 0.0251
+Epoch 13/15 - Loss: 0.0256
+Validation for Epoch 13:
+                      precision    recall  f1-score   support
+
+          AnnualCrop       0.98      0.97      0.98       600
+              Forest       0.99      1.00      0.99       600
+HerbaceousVegetation       0.97      0.96      0.96       600
+             Highway       1.00      0.98      0.99       500
+          Industrial       0.99      0.99      0.99       500
+             Pasture       0.98      0.95      0.97       400
+       PermanentCrop       0.95      0.98      0.97       500
+         Residential       0.99      0.99      0.99       600
+               River       0.98      1.00      0.99       500
+             SeaLake       1.00      1.00      1.00       600
+
+            accuracy                           0.98      5400
+           macro avg       0.98      0.98      0.98      5400
+        weighted avg       0.98      0.98      0.98      5400
+
+Epoch [14/15], Step [50/591], Loss: 0.0038
+Epoch [14/15], Step [100/591], Loss: 0.0144
+Epoch [14/15], Step [150/591], Loss: 0.0261
+Epoch [14/15], Step [200/591], Loss: 0.0347
+Epoch [14/15], Step [250/591], Loss: 0.0046
+Epoch [14/15], Step [300/591], Loss: 0.0212
+Epoch [14/15], Step [350/591], Loss: 0.0140
+Epoch [14/15], Step [400/591], Loss: 0.0099
+Epoch [14/15], Step [450/591], Loss: 0.0026
+Epoch [14/15], Step [500/591], Loss: 0.0532
+Epoch [14/15], Step [550/591], Loss: 0.0361
+Epoch 14/15 - Loss: 0.0242
+Validation for Epoch 14:
+                      precision    recall  f1-score   support
+
+          AnnualCrop       0.98      0.98      0.98       600
+              Forest       0.99      1.00      1.00       600
+HerbaceousVegetation       0.98      0.97      0.97       600
+             Highway       0.99      0.99      0.99       500
+          Industrial       0.99      1.00      0.99       500
+             Pasture       0.98      0.96      0.97       400
+       PermanentCrop       0.96      0.99      0.98       500
+         Residential       1.00      1.00      1.00       600
+               River       0.99      0.99      0.99       500
+             SeaLake       1.00      0.99      0.99       600
+
+            accuracy                           0.99      5400
+           macro avg       0.99      0.99      0.99      5400
+        weighted avg       0.99      0.99      0.99      5400
+
+Epoch [15/15], Step [50/591], Loss: 0.0285
+Epoch [15/15], Step [100/591], Loss: 0.0035
+Epoch [15/15], Step [150/591], Loss: 0.0285
+Epoch [15/15], Step [200/591], Loss: 0.0037
+Epoch [15/15], Step [250/591], Loss: 0.0480
+Epoch [15/15], Step [300/591], Loss: 0.0043
+Epoch [15/15], Step [350/591], Loss: 0.0024
+Epoch [15/15], Step [400/591], Loss: 0.0256
+Epoch [15/15], Step [450/591], Loss: 0.0236
+Epoch [15/15], Step [500/591], Loss: 0.0009
+Epoch [15/15], Step [550/591], Loss: 0.0343
+Epoch 15/15 - Loss: 0.0228
+Validation for Epoch 15:
+                      precision    recall  f1-score   support
+
+          AnnualCrop       0.98      0.99      0.99       600
+              Forest       0.99      1.00      0.99       600
+HerbaceousVegetation       0.98      0.96      0.97       600
+             Highway       0.99      0.98      0.99       500
+          Industrial       0.99      0.99      0.99       500
+             Pasture       0.98      0.96      0.97       400
+       PermanentCrop       0.96      0.99      0.98       500
+         Residential       0.99      0.99      0.99       600
+               River       0.98      1.00      0.99       500
+             SeaLake       1.00      0.99      1.00       600
+
+            accuracy                           0.99      5400
+           macro avg       0.99      0.99      0.99      5400
+        weighted avg       0.99      0.99      0.99      5400
+
+Model saved to model.pth
+Generating predictions for test set...
+Submission saved to ../solution/solution_teamname.csv
