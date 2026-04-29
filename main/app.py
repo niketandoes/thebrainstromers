@@ -172,14 +172,29 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+import torchvision
+import os
+
 # Load saved model from disk
 @st.cache_resource(show_spinner=False)
 def load_model():
     try:
-        model = torch.load("model.pth", map_location="cpu")
+        # Resolve absolute path to model.pth in the project root
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        model_path = os.path.join(current_dir, "..", "model.pth")
+        
+        if not os.path.exists(model_path):
+            st.error(f"Model file not found at: {model_path}")
+            return None
+        
+        # PyTorch 2.6+ requires explicit weights_only=False for full model objects
+        import torchvision.models.efficientnet
+        with torch.serialization.safe_globals([torchvision.models.efficientnet.EfficientNet]):
+            model = torch.load(model_path, map_location="cpu", weights_only=False)
         model.eval()
         return model
     except Exception as e:
+        st.error(f"Error loading model: {e}")
         return None
 
 model = load_model()
@@ -204,7 +219,7 @@ with col1:
     
     if uploaded:
         image = Image.open(uploaded).convert("RGB")
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+        st.image(image, caption="Uploaded Image", use_container_width=True)
 
 with col2:
     st.markdown("### 2. Analysis Results")

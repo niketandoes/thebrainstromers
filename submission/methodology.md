@@ -1,38 +1,119 @@
-# EuroSAT Land Use Classification Methodology
+# EuroSAT Land Use Classification — Methodology
+
+**Team:** The Brainstromers | **Hackathon:** KaggleHacX '26
+
+---
 
 ## 1. Overview
-The goal of this project is to build an accurate, robust image classification model for the **EuroSAT dataset**, which contains 27,000 Sentinel-2 satellite images categorized into 10 distinct land use and land cover classes. 
 
-Our solution prioritizes speed, efficiency, and high accuracy, adhering strictly to the local-execution hackathon constraints without relying on external cloud APIs.
+The goal of this project is to build an accurate, robust image classification model for the **EuroSAT dataset**, containing 27,000 Sentinel-2 satellite images categorized into 10 distinct land use and land cover classes.
 
-## 2. Data Preparation and Loading
-The dataset is structured using mapping CSVs (`train.csv`, `validation.csv`, `test.csv`) rather than standard subfolders. To efficiently feed this data into the model, we designed a **Custom PyTorch Dataset Class**.
-- **Images:** Loaded locally from the base directory using the filename column.
-- **Labels:** Mapped from string class names to 0-9 integers using the `label_map.json`.
-- **Augmentation:** For the training set, we implemented dynamic data augmentations including Random Horizontal Flips, Random Vertical Flips, and Random Rotations. This artificially expands the dataset, helping the model generalize to satellite imagery regardless of orientation.
+Our solution prioritizes efficiency and high accuracy, adhering strictly to the local-execution hackathon constraints without relying on any external cloud APIs or services.
+
+**Final Result: 99% Validation Accuracy | Macro F1-Score: 0.99**
+
+---
+
+## 2. Data Preparation
+
+The dataset is structured using CSV mapping files (`train.csv`, `validation.csv`, `test.csv`). We designed a **Custom PyTorch Dataset class (`EuroSATDataset`)** to handle this non-standard format efficiently.
+
+- **Image Loading:** Images loaded from a local base directory using filenames from the CSVs.
+- **Label Mapping:** String class names dynamically mapped to 0–9 integer indices at runtime.
+- **Training Augmentations (applied only to training set):**
+  - `RandomHorizontalFlip`
+  - `RandomRotation(15°)`
+  - `ColorJitter` (brightness & contrast)
+  - Standard ImageNet Normalization (`mean=[0.485, 0.456, 0.406]`)
+
+---
 
 ## 3. Model Architecture
-We selected **EfficientNet-B0** as our core architecture.
-- **Why EfficientNet-B0?** It provides an optimal balance between parameter efficiency and high accuracy. It drastically reduces training time while capturing complex geospatial textures, which is critical for a 6-hour hackathon.
-- **Transfer Learning:** We initialized the model with weights pre-trained on ImageNet. We replaced the final fully-connected layer with a new custom classifier head designed specifically to output predictions for the 10 EuroSAT classes.
+
+**Chosen Model: EfficientNet-B0** (PyTorch / TorchVision)
+
+| Property | Value |
+|----------|-------|
+| Base Architecture | EfficientNet-B0 |
+| Pre-training | ImageNet-1k |
+| Output Classes | 10 (EuroSAT) |
+| Input Size | 224 × 224 × 3 |
+| Total Epochs | 15 |
+
+**Why EfficientNet-B0?**
+It delivers an optimal trade-off between computational efficiency and accuracy using compound scaling. This makes it ideal for long CPU-based training runs while still capturing the fine-grained geospatial textures that differentiate classes like `HerbaceousVegetation` from `PermanentCrop`.
+
+**Head Modification:** The final `nn.Linear` classifier layer was replaced with a new 10-class output layer.
+
+---
 
 ## 4. Two-Phase Fine-Tuning Strategy
-To avoid destroying the highly valuable pre-trained ImageNet weights during the early stages of training, we utilized a Two-Phase Strategy:
 
-### Phase 1: Feature Extraction (Epochs 1-5)
-- **Frozen Backbone:** We froze all layers of the EfficientNet-B0 feature extractor.
-- **Head Training:** Only the newly attached 10-class classifier head was trained using a standard Learning Rate. 
-- **Result:** Within 5 epochs, the model successfully mapped the frozen ImageNet features to the 10 EuroSAT categories, achieving a baseline **90% validation accuracy**.
+To avoid destroying valuable pre-trained ImageNet features early in training, we adopted a proven two-phase approach.
 
-### Phase 2: Full Fine-Tuning (Epochs 6-15)
-- **Unfrozen Backbone:** We unfroze the entire network.
-- **Micro-Adjustments:** We implemented a `CosineAnnealingLR` scheduler to smoothly decay the learning rate. This prevents catastrophic forgetting and allows the model to subtly adjust its deep convolutional filters specifically for satellite textures (e.g., distinguishing between 'Forest' and 'PermanentCrop').
-- **Result:** Accuracy rapidly climbed to **98%**, with perfect (1.00) F1 scores on distinctive classes like `SeaLake`.
+### Phase 1: Feature Extraction — Epochs 1–5
+- **Backbone:** Frozen (all `requires_grad = False`)
+- **Optimizer:** Adam, LR = `1e-3`
+- **Goal:** Train only the new 10-class classifier head.
+- **Outcome:** Achieved a strong **~90% validation accuracy baseline** within 5 epochs, confirming that ImageNet features transfer well to satellite imagery.
 
-## 5. Inference and Application
-The trained weights (`model.pth`) are saved locally. We built a fully offline **Streamlit Application** that allows users to upload any `.jpg` image. The app loads the custom EfficientNet model, applies the exact same normalization transforms used during training, and outputs the predicted land cover class alongside a confidence probability bar.
+### Phase 2: Full Fine-Tuning — Epochs 6–15
+- **Backbone:** Unfrozen (all parameters trainable)
+- **Optimizer:** Adam, LR = `1e-4` (10× lower to prevent catastrophic forgetting)
+- **Scheduler:** `CosineAnnealingLR` for smooth LR decay
+- **Goal:** Allow the deep convolutional filters to subtly adapt to satellite-specific textures.
+- **Outcome:** Accuracy rapidly converged to **99%**, with the final training loss settling at ~0.022.
 
-## 6. Performance Summary
-- **Peak Validation Accuracy:** 98%
-- **Loss:** Converged smoothly from 1.32 down to ~0.02.
-- **Inference Time:** < 0.5 seconds per image on CPU.
+---
+
+## 5. Training Results
+
+| Epoch | Phase | Avg. Loss | Val. Accuracy |
+|-------|-------|-----------|---------------|
+| 1 | Feature Extraction | 0.677 | 90% |
+| 5 | Feature Extraction | ~0.30 | ~95% |
+| 6 | Fine-Tuning Start | ~0.25 | ~96% |
+| 11 | Fine-Tuning | 0.040 | 99% |
+| 15 | Fine-Tuning (Final) | 0.022 | **99%** |
+
+### Final Per-Class Performance (Epoch 15)
+
+| Class | Precision | Recall | F1-Score |
+|---|---|---|---|
+| Annual Crop | 0.98 | 0.99 | 0.99 |
+| Forest | 0.99 | 1.00 | **1.00** |
+| Herbaceous Vegetation | 0.98 | 0.96 | 0.97 |
+| Highway | 0.99 | 0.98 | 0.99 |
+| Industrial | 0.99 | 0.99 | 0.99 |
+| Pasture | 0.98 | 0.96 | 0.97 |
+| Permanent Crop | 0.96 | 0.99 | 0.98 |
+| Residential | 0.99 | 0.99 | 0.99 |
+| River | 0.98 | 1.00 | 0.99 |
+| Sea/Lake | 1.00 | 0.99 | **1.00** |
+| **Weighted Avg** | **0.99** | **0.99** | **0.99** |
+
+---
+
+## 6. Inference Application
+
+The trained weights (`model.pth`, 16MB) are saved locally. We built a fully offline **Streamlit web application** (`main/app.py`) that:
+
+1. Loads the EfficientNet-B0 model from disk using `torch.load`.
+2. Applies the identical normalization transforms used during training.
+3. Displays the **predicted land cover class** and a **top-5 confidence bar chart**.
+
+The app runs entirely on the local machine with no external API calls.
+
+---
+
+## 7. Dependencies
+
+```
+torch
+torchvision
+streamlit
+pandas
+scikit-learn
+Pillow
+numpy
+```
