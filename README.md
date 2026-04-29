@@ -73,6 +73,3 @@ For a full breakdown of the architecture and training logic, see [methodology.md
 
 ## 👥 Contributors
 - **The Brainstromers** - KaggleHacX '26 participants.
-
----
-*Built with ❤️.*
